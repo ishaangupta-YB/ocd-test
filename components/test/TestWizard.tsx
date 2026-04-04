@@ -10,7 +10,6 @@ import { ChecklistGroup } from "@/components/test/ChecklistGroup";
 import { SeverityQuestionCard } from "@/components/test/SeverityQuestionCard";
 import { StepNavigation } from "@/components/test/StepNavigation";
 import { TestProgress } from "@/components/test/TestProgress";
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useTestContext } from "@/context/TestContext";
 import { generalInstructions, partAInstructions, partAItems } from "@/data/partA";
@@ -356,6 +355,15 @@ export function TestWizard() {
     goForward();
   };
 
+  const nextLabel = (() => {
+    if (currentStep.kind === "intro") return "Begin Part A";
+    if (currentStep.kind === "transition" || currentStep.kind === "skip") return currentStep.nextLabel;
+    if (currentStep.kind === "severity" && state.currentStep >= steps.length - 1) return "See Results";
+    return "Next";
+  })();
+
+  const isFirstStep = currentStep.kind === "intro";
+
   return (
     <div className="mx-auto flex w-full max-w-5xl flex-col gap-6 px-4 py-10 sm:px-6 lg:px-8">
       <TestProgress
@@ -397,85 +405,45 @@ export function TestWizard() {
               </Card>
               <PrivacyNotice />
               <Disclaimer compact />
-              {stepError ? (
-                <Card className="border-[var(--color-warning-border)] bg-[var(--color-warning-surface)] p-4">
-                  <p className="text-sm text-foreground">
-                    {stepError}
-                  </p>
-                </Card>
-              ) : null}
-              <div className="flex flex-col gap-3 sm:flex-row sm:justify-end">
-                <Button onClick={handleNext} size="lg">
-                  Begin Part A
-                </Button>
-              </div>
             </>
           ) : null}
 
           {currentStep.kind === "transition" ? (
-            <>
-              <Card className="p-6 sm:p-8">
-                <div className="space-y-5">
-                  <div className="space-y-3">
-                    <p className="text-sm font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                      Section transition
-                    </p>
-                    <h1 className="font-serif text-4xl text-foreground sm:text-5xl">
-                      {currentStep.heading}
-                    </h1>
-                  </div>
-                  <div className="space-y-4 text-base leading-8 text-foreground">
-                    {currentStep.body.map((paragraph) => (
-                      <p key={paragraph}>{paragraph}</p>
-                    ))}
-                  </div>
-                </div>
-              </Card>
-              {stepError ? (
-                <Card className="border-[var(--color-warning-border)] bg-[var(--color-warning-surface)] p-4">
-                  <p className="text-sm text-foreground">
-                    {stepError}
+            <Card className="p-6 sm:p-8">
+              <div className="space-y-5">
+                <div className="space-y-3">
+                  <p className="text-sm font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                    Section transition
                   </p>
-                </Card>
-              ) : null}
-              <StepNavigation
-                nextLabel={currentStep.nextLabel}
-                onBack={goBack}
-                onNext={handleNext}
-              />
-            </>
+                  <h1 className="font-serif text-4xl text-foreground sm:text-5xl">
+                    {currentStep.heading}
+                  </h1>
+                </div>
+                <div className="space-y-4 text-base leading-8 text-foreground">
+                  {currentStep.body.map((paragraph) => (
+                    <p key={paragraph}>{paragraph}</p>
+                  ))}
+                </div>
+              </div>
+            </Card>
           ) : null}
 
           {currentStep.kind === "skip" ? (
-            <>
-              <Card className="p-6 sm:p-8">
-                <div className="space-y-5">
-                  <div className="space-y-3">
-                    <p className="text-sm font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                      Section update
-                    </p>
-                    <h1 className="font-serif text-4xl text-foreground sm:text-5xl">
-                      {currentStep.heading}
-                    </h1>
-                  </div>
-                  <p className="text-lg leading-8 text-foreground">
-                    {currentStep.message}
+            <Card className="p-6 sm:p-8">
+              <div className="space-y-5">
+                <div className="space-y-3">
+                  <p className="text-sm font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                    Section update
                   </p>
+                  <h1 className="font-serif text-4xl text-foreground sm:text-5xl">
+                    {currentStep.heading}
+                  </h1>
                 </div>
-              </Card>
-              {stepError ? (
-                <Card className="border-[var(--color-warning-border)] bg-[var(--color-warning-surface)] p-4">
-                  <p className="text-sm text-foreground">
-                    {stepError}
-                  </p>
-                </Card>
-              ) : null}
-              <StepNavigation
-                nextLabel={currentStep.nextLabel}
-                onBack={goBack}
-                onNext={handleNext}
-              />
-            </>
+                <p className="text-lg leading-8 text-foreground">
+                  {currentStep.message}
+                </p>
+              </div>
+            </Card>
           ) : null}
 
           {currentStep.kind === "checklist" ? (
@@ -493,13 +461,6 @@ export function TestWizard() {
                   </p>
                 </div>
               </Card>
-              {stepError ? (
-                <Card className="border-[var(--color-warning-border)] bg-[var(--color-warning-surface)] p-4">
-                  <p className="text-sm text-foreground">
-                    {stepError}
-                  </p>
-                </Card>
-              ) : null}
               <ChecklistGroup
                 items={currentStep.items}
                 onSelect={(itemId, value) => {
@@ -508,7 +469,6 @@ export function TestWizard() {
                 }}
                 responses={state[currentStep.part]}
               />
-              <StepNavigation onBack={goBack} onNext={handleNext} />
             </>
           ) : null}
 
@@ -524,13 +484,6 @@ export function TestWizard() {
                   </h1>
                 </div>
               </Card>
-              {stepError ? (
-                <Card className="border-[var(--color-warning-border)] bg-[var(--color-warning-surface)] p-4">
-                  <p className="text-sm text-foreground">
-                    {stepError}
-                  </p>
-                </Card>
-              ) : null}
               <SeverityQuestionCard
                 onSelect={(value) => {
                   setStepError(null);
@@ -539,17 +492,25 @@ export function TestWizard() {
                 question={currentStep.question}
                 selectedValue={state[currentStep.part][currentStep.question.id]}
               />
-              <StepNavigation
-                nextLabel={
-                  state.currentStep >= steps.length - 1 ? "See Results" : "Next"
-                }
-                onBack={goBack}
-                onNext={handleNext}
-              />
             </>
           ) : null}
         </motion.section>
       </AnimatePresence>
+
+      {stepError ? (
+        <Card className="border-[var(--color-warning-border)] bg-[var(--color-warning-surface)] p-4">
+          <p className="text-sm text-foreground">
+            {stepError}
+          </p>
+        </Card>
+      ) : null}
+
+      <StepNavigation
+        nextLabel={nextLabel}
+        disableBack={isFirstStep}
+        onBack={isFirstStep ? () => {} : goBack}
+        onNext={handleNext}
+      />
     </div>
   );
 }

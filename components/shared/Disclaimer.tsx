@@ -1,4 +1,5 @@
-import { Card } from "@/components/ui/card";
+import { TriangleAlert } from "lucide-react";
+import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
 const disclaimerText =
@@ -14,18 +15,23 @@ export function Disclaimer({
   return (
     <Card
       className={cn(
-        "border-[var(--color-warning-border)] bg-[var(--color-warning-surface)] p-5 sm:p-6",
+        "border-[var(--color-warning-border)] bg-[var(--color-warning-surface)]",
         className,
       )}
     >
-      <div className="space-y-3">
-        <h2 className="font-serif text-2xl text-foreground">
-          Important Disclaimer
-        </h2>
-        <p className={cn("text-base leading-7 text-foreground", compact && "text-sm leading-6")}>
+      <CardHeader>
+        <div className="flex items-center gap-2">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--color-warning-border)]/20">
+            <TriangleAlert className="h-4 w-4 text-[var(--color-warning-border)]" />
+          </div>
+          <CardTitle className="font-serif text-lg">
+            Important Disclaimer
+          </CardTitle>
+        </div>
+        <CardDescription className={cn("text-foreground leading-7", compact ? "text-sm leading-6" : "text-base")}>
           {disclaimerText}
-        </p>
-      </div>
+        </CardDescription>
+      </CardHeader>
     </Card>
   );
 }

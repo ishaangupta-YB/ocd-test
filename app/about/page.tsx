@@ -77,7 +77,7 @@ export default function AboutPage() {
               View Results Page
             </Link>
             <a
-              href="https://pandasnetwork.org/wp-content/uploads/2018/11/y-bocs-w-checklist.pdf"
+              href="https://static1.squarespace.com/static/58cab82ff5e231f0df8d9cad/t/60945b3af4680c68037f8188/1620335418443/YBOCS-II-SR.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className={buttonVariants({

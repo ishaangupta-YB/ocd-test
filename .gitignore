@@ -23,6 +23,7 @@
 # misc
 .DS_Store
 *.pem
+YBOCS-II-SR.pdf
 
 # debug
 npm-debug.log*

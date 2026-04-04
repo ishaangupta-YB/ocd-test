@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import { DM_Sans, Playfair_Display, Geist } from "next/font/google";
+import { Playfair_Display, Geist } from "next/font/google";
 
 import { AppProviders } from "@/components/layout/AppProviders";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 
@@ -59,17 +60,20 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
+      data-scroll-behavior="smooth"
       className={cn("h-full", "scroll-smooth", "antialiased", playfairDisplay.variable, "font-sans", geist.variable)}
     >
       <body className="min-h-full bg-background text-foreground">
-        <AppProviders>
-          <div className="relative flex min-h-screen flex-col">
-            <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[34rem] bg-[radial-gradient(circle_at_top_left,_rgba(134,171,165,0.26),_transparent_48%),radial-gradient(circle_at_top_right,_rgba(194,174,140,0.18),_transparent_45%),linear-gradient(180deg,rgba(250,247,240,0.96),rgba(250,247,240,0.88))] dark:bg-[radial-gradient(circle_at_top_left,_rgba(80,115,111,0.28),_transparent_42%),radial-gradient(circle_at_top_right,_rgba(123,160,150,0.14),_transparent_42%),linear-gradient(180deg,rgba(13,23,27,0.95),rgba(13,23,27,0.88))]" />
-            <SiteHeader />
-            <main className="flex-1">{children}</main>
-            <SiteFooter />
-          </div>
-        </AppProviders>
+        <TooltipProvider>
+          <AppProviders>
+            <div className="relative flex min-h-screen flex-col">
+              <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[34rem] bg-[radial-gradient(circle_at_top_left,_rgba(134,171,165,0.26),_transparent_48%),radial-gradient(circle_at_top_right,_rgba(194,174,140,0.18),_transparent_45%),linear-gradient(180deg,rgba(250,247,240,0.96),rgba(250,247,240,0.88))] dark:bg-[radial-gradient(circle_at_top_left,_rgba(80,115,111,0.28),_transparent_42%),radial-gradient(circle_at_top_right,_rgba(123,160,150,0.14),_transparent_42%),linear-gradient(180deg,rgba(13,23,27,0.95),rgba(13,23,27,0.88))]" />
+              <SiteHeader />
+              <main className="flex-1">{children}</main>
+              <SiteFooter />
+            </div>
+          </AppProviders>
+        </TooltipProvider>
       </body>
     </html>
   );

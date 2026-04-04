@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 const navigationItems = [
@@ -15,7 +16,7 @@ export function Navigation() {
   const pathname = usePathname();
 
   return (
-    <nav aria-label="Primary" className="flex flex-wrap items-center gap-2">
+    <nav aria-label="Primary" className="flex items-center gap-1">
       {navigationItems.map((item) => {
         const isActive =
           item.href === "/"
@@ -27,10 +28,8 @@ export function Navigation() {
             key={item.href}
             href={item.href}
             className={cn(
-              "rounded-full px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-              isActive
-                ? "bg-[var(--color-surface-strong)] text-foreground"
-                : "text-muted-foreground hover:bg-[var(--color-surface-strong)] hover:text-foreground",
+              buttonVariants({ variant: "ghost", size: "sm" }),
+              isActive && "bg-muted text-foreground",
             )}
           >
             {item.label}
