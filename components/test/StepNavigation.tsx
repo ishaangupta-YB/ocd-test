@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/Button";
-import { Card } from "@/components/ui/Card";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 
 export function StepNavigation({
   backLabel = "Back",
@@ -18,17 +18,17 @@ export function StepNavigation({
 }) {
   return (
     <div className="sticky bottom-3 z-20 mt-8">
-      <Card className="border-[var(--color-border)] bg-[color-mix(in_oklab,var(--color-surface)_90%,transparent)] p-3 shadow-[var(--shadow-card)] backdrop-blur-xl">
+      <Card className="border-border bg-[color-mix(in_oklab,var(--color-surface)_90%,transparent)] p-3 shadow-[var(--shadow-card)] backdrop-blur-xl">
         <div className="flex flex-col gap-3 sm:flex-row sm:justify-between">
           <Button
+            className="w-full"
             disabled={disableBack}
-            fullWidth
             onClick={onBack}
             variant="ghost"
           >
             {backLabel}
           </Button>
-          <Button disabled={disableNext} fullWidth onClick={onNext}>
+          <Button className="w-full" disabled={disableNext} onClick={onNext}>
             {nextLabel}
           </Button>
         </div>

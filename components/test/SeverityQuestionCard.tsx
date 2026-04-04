@@ -1,7 +1,7 @@
 import type { SeverityQuestion } from "@/lib/test-types";
 import { cn } from "@/lib/utils";
 
-import { Card } from "@/components/ui/Card";
+import { Card } from "@/components/ui/card";
 
 export function SeverityQuestionCard({
   onSelect,
@@ -16,10 +16,10 @@ export function SeverityQuestionCard({
     <Card className="p-5 sm:p-6">
       <fieldset className="space-y-5">
         <legend className="space-y-3">
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--color-muted-foreground)]">
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-muted-foreground">
             {question.name}
           </p>
-          <h2 className="text-2xl font-medium leading-9 text-[var(--color-foreground)] sm:text-3xl">
+          <h2 className="text-2xl font-medium leading-9 text-foreground sm:text-3xl">
             {question.prompt}
           </h2>
         </legend>
@@ -33,8 +33,8 @@ export function SeverityQuestionCard({
                 className={cn(
                   "flex cursor-pointer gap-4 rounded-[1.15rem] border p-4 transition-all duration-200",
                   isSelected
-                    ? "border-transparent bg-[var(--color-accent)] text-[var(--color-accent-foreground)] shadow-[var(--shadow-soft)]"
-                    : "border-[var(--color-border)] bg-[var(--color-background)] text-[var(--color-foreground)] hover:bg-[var(--color-surface-strong)]",
+                    ? "border-transparent bg-primary text-primary-foreground shadow-[var(--shadow-soft)]"
+                    : "border-border bg-background text-foreground hover:bg-[var(--color-surface-strong)]",
                 )}
               >
                 <input
@@ -49,7 +49,7 @@ export function SeverityQuestionCard({
                   className={cn(
                     "flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-base font-semibold",
                     isSelected
-                      ? "bg-[color-mix(in_oklab,var(--color-accent-foreground)_16%,transparent)]"
+                      ? "bg-[color-mix(in_oklab,var(--color-primary-foreground)_16%,transparent)]"
                       : "bg-[var(--color-surface-strong)]",
                   )}
                 >

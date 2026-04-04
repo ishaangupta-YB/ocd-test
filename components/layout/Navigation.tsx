@@ -27,10 +27,10 @@ export function Navigation() {
             key={item.href}
             href={item.href}
             className={cn(
-              "rounded-full px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-background)]",
+              "rounded-full px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
               isActive
-                ? "bg-[var(--color-surface-strong)] text-[var(--color-foreground)]"
-                : "text-[var(--color-muted-foreground)] hover:bg-[var(--color-surface-strong)] hover:text-[var(--color-foreground)]",
+                ? "bg-[var(--color-surface-strong)] text-foreground"
+                : "text-muted-foreground hover:bg-[var(--color-surface-strong)] hover:text-foreground",
             )}
           >
             {item.label}

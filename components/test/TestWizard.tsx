@@ -10,8 +10,8 @@ import { ChecklistGroup } from "@/components/test/ChecklistGroup";
 import { SeverityQuestionCard } from "@/components/test/SeverityQuestionCard";
 import { StepNavigation } from "@/components/test/StepNavigation";
 import { TestProgress } from "@/components/test/TestProgress";
-import { Button } from "@/components/ui/Button";
-import { Card } from "@/components/ui/Card";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import { useTestContext } from "@/context/TestContext";
 import { generalInstructions, partAInstructions, partAItems } from "@/data/partA";
 import { partBInstructions, partBQuestions } from "@/data/partB";
@@ -300,10 +300,10 @@ export function TestWizard() {
       <div className="mx-auto flex w-full max-w-5xl flex-col gap-6 px-4 py-10 sm:px-6 lg:px-8">
         <Card className="p-8 sm:p-10">
           <div className="space-y-3">
-            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--color-muted-foreground)]">
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-muted-foreground">
               Preparing your screening
             </p>
-            <p className="text-lg text-[var(--color-foreground)]">
+            <p className="text-lg text-foreground">
               Loading your current session…
             </p>
           </div>
@@ -378,17 +378,17 @@ export function TestWizard() {
               <Card className="p-6 sm:p-8">
                 <div className="space-y-6">
                   <div className="space-y-3">
-                    <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--color-muted-foreground)]">
+                    <p className="text-sm font-semibold uppercase tracking-[0.18em] text-muted-foreground">
                       General Instructions
                     </p>
-                    <h1 className="font-serif text-4xl text-[var(--color-foreground)] sm:text-5xl">
+                    <h1 className="font-serif text-4xl text-foreground sm:text-5xl">
                       Before you begin
                     </h1>
                   </div>
-                  <p className="text-lg leading-8 text-[var(--color-foreground)]">
+                  <p className="text-lg leading-8 text-foreground">
                     {generalInstructions}
                   </p>
-                  <div className="space-y-3 text-base leading-7 text-[var(--color-muted-foreground)]">
+                  <div className="space-y-3 text-base leading-7 text-muted-foreground">
                     {partAInstructions.map((instruction) => (
                       <p key={instruction}>{instruction}</p>
                     ))}
@@ -399,7 +399,7 @@ export function TestWizard() {
               <Disclaimer compact />
               {stepError ? (
                 <Card className="border-[var(--color-warning-border)] bg-[var(--color-warning-surface)] p-4">
-                  <p className="text-sm text-[var(--color-foreground)]">
+                  <p className="text-sm text-foreground">
                     {stepError}
                   </p>
                 </Card>
@@ -417,14 +417,14 @@ export function TestWizard() {
               <Card className="p-6 sm:p-8">
                 <div className="space-y-5">
                   <div className="space-y-3">
-                    <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--color-muted-foreground)]">
+                    <p className="text-sm font-semibold uppercase tracking-[0.18em] text-muted-foreground">
                       Section transition
                     </p>
-                    <h1 className="font-serif text-4xl text-[var(--color-foreground)] sm:text-5xl">
+                    <h1 className="font-serif text-4xl text-foreground sm:text-5xl">
                       {currentStep.heading}
                     </h1>
                   </div>
-                  <div className="space-y-4 text-base leading-8 text-[var(--color-foreground)]">
+                  <div className="space-y-4 text-base leading-8 text-foreground">
                     {currentStep.body.map((paragraph) => (
                       <p key={paragraph}>{paragraph}</p>
                     ))}
@@ -433,7 +433,7 @@ export function TestWizard() {
               </Card>
               {stepError ? (
                 <Card className="border-[var(--color-warning-border)] bg-[var(--color-warning-surface)] p-4">
-                  <p className="text-sm text-[var(--color-foreground)]">
+                  <p className="text-sm text-foreground">
                     {stepError}
                   </p>
                 </Card>
@@ -451,21 +451,21 @@ export function TestWizard() {
               <Card className="p-6 sm:p-8">
                 <div className="space-y-5">
                   <div className="space-y-3">
-                    <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--color-muted-foreground)]">
+                    <p className="text-sm font-semibold uppercase tracking-[0.18em] text-muted-foreground">
                       Section update
                     </p>
-                    <h1 className="font-serif text-4xl text-[var(--color-foreground)] sm:text-5xl">
+                    <h1 className="font-serif text-4xl text-foreground sm:text-5xl">
                       {currentStep.heading}
                     </h1>
                   </div>
-                  <p className="text-lg leading-8 text-[var(--color-foreground)]">
+                  <p className="text-lg leading-8 text-foreground">
                     {currentStep.message}
                   </p>
                 </div>
               </Card>
               {stepError ? (
                 <Card className="border-[var(--color-warning-border)] bg-[var(--color-warning-surface)] p-4">
-                  <p className="text-sm text-[var(--color-foreground)]">
+                  <p className="text-sm text-foreground">
                     {stepError}
                   </p>
                 </Card>
@@ -482,20 +482,20 @@ export function TestWizard() {
             <>
               <Card className="p-6 sm:p-8">
                 <div className="space-y-3">
-                  <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--color-muted-foreground)]">
+                  <p className="text-sm font-semibold uppercase tracking-[0.18em] text-muted-foreground">
                     {currentStep.rangeLabel}
                   </p>
-                  <h1 className="font-serif text-4xl text-[var(--color-foreground)] sm:text-5xl">
+                  <h1 className="font-serif text-4xl text-foreground sm:text-5xl">
                     {currentStep.heading}
                   </h1>
-                  <p className="text-base leading-8 text-[var(--color-muted-foreground)]">
+                  <p className="text-base leading-8 text-muted-foreground">
                     {currentStep.helperText}
                   </p>
                 </div>
               </Card>
               {stepError ? (
                 <Card className="border-[var(--color-warning-border)] bg-[var(--color-warning-surface)] p-4">
-                  <p className="text-sm text-[var(--color-foreground)]">
+                  <p className="text-sm text-foreground">
                     {stepError}
                   </p>
                 </Card>
@@ -516,17 +516,17 @@ export function TestWizard() {
             <>
               <Card className="p-6 sm:p-8">
                 <div className="space-y-3">
-                  <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--color-muted-foreground)]">
+                  <p className="text-sm font-semibold uppercase tracking-[0.18em] text-muted-foreground">
                     Question {currentStep.questionNumber} of {currentStep.totalQuestions}
                   </p>
-                  <h1 className="font-serif text-4xl text-[var(--color-foreground)] sm:text-5xl">
+                  <h1 className="font-serif text-4xl text-foreground sm:text-5xl">
                     {currentStep.heading}
                   </h1>
                 </div>
               </Card>
               {stepError ? (
                 <Card className="border-[var(--color-warning-border)] bg-[var(--color-warning-surface)] p-4">
-                  <p className="text-sm text-[var(--color-foreground)]">
+                  <p className="text-sm text-foreground">
                     {stepError}
                   </p>
                 </Card>

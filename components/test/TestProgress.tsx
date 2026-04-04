@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 
-import { Card } from "@/components/ui/Card";
+import { Card } from "@/components/ui/card";
 
 export function TestProgress({
   partLabel,
@@ -21,14 +21,14 @@ export function TestProgress({
       <div aria-live="polite" className="space-y-4" role="status">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--color-muted-foreground)]">
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-muted-foreground">
               Progress
             </p>
-            <p className="mt-1 text-base font-medium text-[var(--color-foreground)]">
+            <p className="mt-1 text-base font-medium text-foreground">
               {partLabel}
             </p>
           </div>
-          <p className="text-sm text-[var(--color-muted-foreground)]">
+          <p className="text-sm text-muted-foreground">
             {percentage}% complete
           </p>
         </div>
@@ -42,7 +42,7 @@ export function TestProgress({
         >
           <motion.div
             animate={{ width: `${percentage}%` }}
-            className="h-full rounded-full bg-[var(--color-accent)]"
+            className="h-full rounded-full bg-primary"
             initial={false}
             transition={{ duration: 0.35, ease: "easeOut" }}
           />

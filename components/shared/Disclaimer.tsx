@@ -1,4 +1,4 @@
-import { Card } from "@/components/ui/Card";
+import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
 const disclaimerText =
@@ -19,10 +19,10 @@ export function Disclaimer({
       )}
     >
       <div className="space-y-3">
-        <h2 className="font-serif text-2xl text-[var(--color-foreground)]">
+        <h2 className="font-serif text-2xl text-foreground">
           Important Disclaimer
         </h2>
-        <p className={cn("text-base leading-7 text-[var(--color-foreground)]", compact && "text-sm leading-6")}>
+        <p className={cn("text-base leading-7 text-foreground", compact && "text-sm leading-6")}>
           {disclaimerText}
         </p>
       </div>

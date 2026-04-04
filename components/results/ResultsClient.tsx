@@ -6,8 +6,9 @@ import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
 import { Disclaimer } from "@/components/shared/Disclaimer";
-import { Button, buttonClassName } from "@/components/ui/Button";
-import { Card } from "@/components/ui/Card";
+import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import { useTestContext } from "@/context/TestContext";
 import {
   interpretationBySeverity,
@@ -62,7 +63,7 @@ export function ResultsClient() {
     return (
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-4 py-10 sm:px-6 lg:px-8">
         <Card className="p-8 sm:p-10">
-          <p className="text-lg text-[var(--color-foreground)]">
+          <p className="text-lg text-foreground">
             Loading your results…
           </p>
         </Card>
@@ -76,25 +77,25 @@ export function ResultsClient() {
         <Card className="p-8 sm:p-10">
           <div className="space-y-5">
             <div className="space-y-3">
-              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--color-muted-foreground)]">
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-muted-foreground">
                 Results unavailable
               </p>
-              <h1 className="font-serif text-4xl text-[var(--color-foreground)] sm:text-5xl">
+              <h1 className="font-serif text-4xl text-foreground sm:text-5xl">
                 We couldn&apos;t find a completed screening session.
               </h1>
             </div>
-            <p className="text-base leading-8 text-[var(--color-muted-foreground)]">
+            <p className="text-base leading-8 text-muted-foreground">
               Complete the screener first to view a score summary and
               interpretation. If you already started, you can return to the test
               and continue where you left off in this browser session.
             </p>
             <div className="flex flex-col gap-3 sm:flex-row">
-              <Link href="/test" className={buttonClassName({ size: "lg" })}>
+              <Link href="/test" className={buttonVariants({ size: "lg" })}>
                 Go to the Screening
               </Link>
               <Link
                 href="/about"
-                className={buttonClassName({
+                className={buttonVariants({
                   size: "lg",
                   variant: "secondary",
                 })}
@@ -122,19 +123,19 @@ export function ResultsClient() {
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-start">
           <div className="space-y-5">
             <div className="space-y-3">
-              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--color-muted-foreground)]">
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-muted-foreground">
                 Your results
               </p>
-              <h1 className="font-serif text-4xl text-[var(--color-foreground)] sm:text-5xl">
+              <h1 className="font-serif text-4xl text-foreground sm:text-5xl">
                 Y-BOCS-II Self-Report score summary
               </h1>
-              <p className="max-w-3xl text-base leading-8 text-[var(--color-muted-foreground)]">
+              <p className="max-w-3xl text-base leading-8 text-muted-foreground">
                 Parts A and C identify symptom themes. Parts B and D provide the
                 0–50 severity score shown here.
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-4">
-              <div className="text-6xl font-semibold tracking-tight text-[var(--color-foreground)] sm:text-7xl">
+              <div className="text-6xl font-semibold tracking-tight text-foreground sm:text-7xl">
                 {displayScore}
               </div>
               <div
@@ -144,7 +145,7 @@ export function ResultsClient() {
                   color:
                     results.severityLevel === "sub-clinical" ||
                     results.severityLevel === "mild"
-                      ? "var(--color-accent-foreground)"
+                      ? "var(--primary-foreground)"
                       : "#ffffff",
                 }}
               >
@@ -153,10 +154,10 @@ export function ResultsClient() {
             </div>
           </div>
           <div className="space-y-4 rounded-[1.5rem] bg-[color-mix(in_oklab,var(--color-surface-strong)_82%,transparent)] p-5">
-            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--color-muted-foreground)]">
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-muted-foreground">
               Recorded in session
             </p>
-            <div className="space-y-3 text-sm text-[var(--color-foreground)]">
+            <div className="space-y-3 text-sm text-foreground">
               <p>
                 Started:{" "}
                 {state.startedAt
@@ -180,36 +181,36 @@ export function ResultsClient() {
         <Card className="p-6 sm:p-7">
           <div className="space-y-5">
             <div className="space-y-2">
-              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--color-muted-foreground)]">
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-muted-foreground">
                 Subscale breakdown
               </p>
-              <h2 className="font-serif text-3xl text-[var(--color-foreground)]">
+              <h2 className="font-serif text-3xl text-foreground">
                 Obsessions vs. compulsions
               </h2>
             </div>
             <div className="space-y-5">
               <div className="space-y-2">
                 <div className="flex items-center justify-between gap-4">
-                  <p className="text-base font-medium text-[var(--color-foreground)]">
+                  <p className="text-base font-medium text-foreground">
                     Obsession Severity Subtotal
                   </p>
-                  <p className="text-base text-[var(--color-muted-foreground)]">
+                  <p className="text-base text-muted-foreground">
                     {results.obsessionSubtotal} / 25
                   </p>
                 </div>
                 <div className="h-3 overflow-hidden rounded-full bg-[var(--color-surface-strong)]">
                   <div
-                    className="h-full rounded-full bg-[var(--color-accent)]"
+                    className="h-full rounded-full bg-primary"
                     style={{ width: obsessionWidth }}
                   />
                 </div>
               </div>
               <div className="space-y-2">
                 <div className="flex items-center justify-between gap-4">
-                  <p className="text-base font-medium text-[var(--color-foreground)]">
+                  <p className="text-base font-medium text-foreground">
                     Compulsion Severity Subtotal
                   </p>
-                  <p className="text-base text-[var(--color-muted-foreground)]">
+                  <p className="text-base text-muted-foreground">
                     {results.compulsionSubtotal} / 25
                   </p>
                 </div>
@@ -227,32 +228,32 @@ export function ResultsClient() {
         <Card className="p-6 sm:p-7">
           <div className="space-y-5">
             <div className="space-y-2">
-              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--color-muted-foreground)]">
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-muted-foreground">
                 Symptom count summary
               </p>
-              <h2 className="font-serif text-3xl text-[var(--color-foreground)]">
+              <h2 className="font-serif text-3xl text-foreground">
                 Endorsed symptom types
               </h2>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="rounded-[1.25rem] bg-[color-mix(in_oklab,var(--color-surface-strong)_82%,transparent)] p-4">
-                <p className="text-sm text-[var(--color-muted-foreground)]">
+                <p className="text-sm text-muted-foreground">
                   Obsessions
                 </p>
-                <p className="mt-2 text-3xl font-semibold text-[var(--color-foreground)]">
+                <p className="mt-2 text-3xl font-semibold text-foreground">
                   {results.obsessionCount} / 29
                 </p>
               </div>
               <div className="rounded-[1.25rem] bg-[color-mix(in_oklab,var(--color-surface-strong)_82%,transparent)] p-4">
-                <p className="text-sm text-[var(--color-muted-foreground)]">
+                <p className="text-sm text-muted-foreground">
                   Compulsions/Avoidance
                 </p>
-                <p className="mt-2 text-3xl font-semibold text-[var(--color-foreground)]">
+                <p className="mt-2 text-3xl font-semibold text-foreground">
                   {results.compulsionCount} / 38
                 </p>
               </div>
             </div>
-            <p className="text-base leading-7 text-[var(--color-muted-foreground)]">
+            <p className="text-base leading-7 text-muted-foreground">
               These counts describe how many symptom types you endorsed. They
               are not added to the severity score.
             </p>
@@ -262,16 +263,16 @@ export function ResultsClient() {
 
       <Card className="p-6 sm:p-7">
         <div className="space-y-4">
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--color-muted-foreground)]">
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-muted-foreground">
             Interpretation
           </p>
-          <h2 className="font-serif text-3xl text-[var(--color-foreground)]">
+          <h2 className="font-serif text-3xl text-foreground">
             What this score may suggest
           </h2>
-          <p className="text-base leading-8 text-[var(--color-foreground)]">
+          <p className="text-base leading-8 text-foreground">
             {interpretationBySeverity[results.severityLevel]}
           </p>
-          <p className="text-sm leading-6 text-[var(--color-muted-foreground)]">
+          <p className="text-sm leading-6 text-muted-foreground">
             {scoringSourceLabel}
           </p>
         </div>
@@ -280,14 +281,14 @@ export function ResultsClient() {
       <Card className="p-6 sm:p-7">
         <div className="space-y-5">
           <div className="space-y-2">
-            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--color-muted-foreground)]">
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-muted-foreground">
               What you can do next
             </p>
-            <h2 className="font-serif text-3xl text-[var(--color-foreground)]">
+            <h2 className="font-serif text-3xl text-foreground">
               Supportive next steps
             </h2>
           </div>
-          <ul className="space-y-3 text-base leading-7 text-[var(--color-foreground)]">
+          <ul className="space-y-3 text-base leading-7 text-foreground">
             {nextSteps.map((step) => (
               <li key={step} className="rounded-[1.15rem] bg-[color-mix(in_oklab,var(--color-surface-strong)_82%,transparent)] p-4">
                 {step}
@@ -298,7 +299,7 @@ export function ResultsClient() {
             {resourceLinks.map((link) => (
               <a
                 key={link.href}
-                className="rounded-[1.15rem] border border-[var(--color-border)] bg-[var(--color-background)] p-4 text-base font-medium text-[var(--color-foreground)] transition-colors hover:bg-[var(--color-surface-strong)]"
+                className="rounded-[1.15rem] border border-border bg-background p-4 text-base font-medium text-foreground transition-colors hover:bg-[var(--color-surface-strong)]"
                 href={link.href}
                 rel="noreferrer"
                 target="_blank"
@@ -314,10 +315,10 @@ export function ResultsClient() {
         <div className="space-y-4">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div className="space-y-2">
-              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--color-muted-foreground)]">
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-muted-foreground">
                 Share or download
               </p>
-              <h2 className="font-serif text-3xl text-[var(--color-foreground)]">
+              <h2 className="font-serif text-3xl text-foreground">
                 Screenshot or copy a clean summary
               </h2>
             </div>
@@ -347,7 +348,7 @@ export function ResultsClient() {
               Results summary copied to your clipboard.
             </p>
           ) : null}
-          <pre className="overflow-x-auto whitespace-pre-wrap rounded-[1.25rem] bg-[color-mix(in_oklab,var(--color-surface-strong)_82%,transparent)] p-4 text-sm leading-7 text-[var(--color-foreground)]">
+          <pre className="overflow-x-auto whitespace-pre-wrap rounded-[1.25rem] bg-[color-mix(in_oklab,var(--color-surface-strong)_82%,transparent)] p-4 text-sm leading-7 text-foreground">
             {summaryText}
           </pre>
         </div>

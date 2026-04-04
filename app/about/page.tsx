@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { FileText } from "lucide-react";
 
 import { Disclaimer } from "@/components/shared/Disclaimer";
 import { PrivacyNotice } from "@/components/shared/PrivacyNotice";
-import { buttonClassName } from "@/components/ui/Button";
-import { Card } from "@/components/ui/Card";
+import { buttonVariants } from "@/lib/button-variants";
+import { Card } from "@/components/ui/card";
 import { resourceLinks } from "@/data/scoring";
 
 export const metadata: Metadata = {
@@ -50,31 +51,44 @@ export default function AboutPage() {
       <Card className="p-6 sm:p-8">
         <div className="space-y-5">
           <div className="space-y-3">
-            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--color-muted-foreground)]">
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-muted-foreground">
               About this website
             </p>
-            <h1 className="font-serif text-4xl text-[var(--color-foreground)] sm:text-5xl">
+            <h1 className="font-serif text-4xl text-foreground sm:text-5xl">
               Understanding the Y-BOCS-II self-report screener
             </h1>
           </div>
-          <p className="max-w-4xl text-lg leading-8 text-[var(--color-muted-foreground)]">
+          <p className="max-w-4xl text-lg leading-8 text-muted-foreground">
             This website presents the Y-BOCS-II Self-Report Version in a calm,
             session-only experience so you can explore obsession and compulsion
             symptoms without creating a permanent record in the browser.
           </p>
           <div className="flex flex-col gap-3 sm:flex-row">
-            <Link href="/test" className={buttonClassName({ size: "lg" })}>
+            <Link href="/test" className={buttonVariants({ size: "lg" })}>
               Begin the Screening
             </Link>
             <Link
               href="/results"
-              className={buttonClassName({
+              className={buttonVariants({
                 size: "lg",
                 variant: "secondary",
               })}
             >
               View Results Page
             </Link>
+            <a
+              href="https://pandasnetwork.org/wp-content/uploads/2018/11/y-bocs-w-checklist.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={buttonVariants({
+                size: "lg",
+                variant: "outline",
+                className: "gap-2",
+              })}
+            >
+              <FileText className="h-4 w-4" />
+              Official Screener PDF
+            </a>
           </div>
         </div>
       </Card>
@@ -83,10 +97,10 @@ export default function AboutPage() {
         {sections.map((section) => (
           <Card key={section.title} className="p-6 sm:p-7">
             <div className="space-y-4">
-              <h2 className="font-serif text-3xl text-[var(--color-foreground)]">
+              <h2 className="font-serif text-3xl text-foreground">
                 {section.title}
               </h2>
-              <div className="space-y-3 text-base leading-8 text-[var(--color-foreground)]">
+              <div className="space-y-3 text-base leading-8 text-foreground">
                 {section.body.map((paragraph) => (
                   <p key={paragraph}>{paragraph}</p>
                 ))}
@@ -99,18 +113,18 @@ export default function AboutPage() {
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(18rem,0.9fr)]">
         <Card className="p-6 sm:p-7">
           <div className="space-y-4">
-            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--color-muted-foreground)]">
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-muted-foreground">
               Attribution
             </p>
-            <h2 className="font-serif text-3xl text-[var(--color-foreground)]">
+            <h2 className="font-serif text-3xl text-foreground">
               Scale attribution and website scope
             </h2>
-            <p className="text-base leading-8 text-[var(--color-foreground)]">
+            <p className="text-base leading-8 text-foreground">
               This tool is based on the Y-BOCS-II Self-Report Version. ©
               Goodman, Rasmussen, Price, & Storch, 2006. This website is not
               affiliated with or endorsed by the scale&apos;s authors.
             </p>
-            <p className="text-base leading-8 text-[var(--color-muted-foreground)]">
+            <p className="text-base leading-8 text-muted-foreground">
               If you want help interpreting a score, finding ERP-focused care,
               or deciding whether further evaluation makes sense, the following
               resources can help:
@@ -122,7 +136,7 @@ export default function AboutPage() {
                   href={resource.href}
                   rel="noreferrer"
                   target="_blank"
-                  className="rounded-[1.15rem] border border-[var(--color-border)] bg-[var(--color-background)] p-4 text-base font-medium text-[var(--color-foreground)] transition-colors hover:bg-[var(--color-surface-strong)]"
+                  className="rounded-[1.15rem] border border-border bg-background p-4 text-base font-medium text-foreground transition-colors hover:bg-[var(--color-surface-strong)]"
                 >
                   {resource.label}
                 </a>
