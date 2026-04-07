@@ -15,10 +15,33 @@ const playfairDisplay = Playfair_Display({
   variable: "--font-heading",
 });
 
+const normalizeSiteUrl = (value?: string): string | undefined => {
+  if (!value) {
+    return undefined;
+  }
+
+  const candidate = value.trim();
+
+  if (!candidate) {
+    return undefined;
+  }
+
+  const withProtocol = /^https?:\/\//i.test(candidate)
+    ? candidate
+    : `https://${candidate}`;
+
+  try {
+    return new URL(withProtocol).toString();
+  } catch {
+    return undefined;
+  }
+};
+
 const metadataBaseUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ??
-  process.env.VERCEL_PROJECT_PRODUCTION_URL ??
-  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
+  normalizeSiteUrl(process.env.NEXT_PUBLIC_SITE_URL) ??
+  normalizeSiteUrl(process.env.VERCEL_PROJECT_PRODUCTION_URL) ??
+  normalizeSiteUrl(process.env.VERCEL_URL) ??
+  "http://localhost:3000";
 
 export const metadata: Metadata = {
   metadataBase: new URL(metadataBaseUrl),
