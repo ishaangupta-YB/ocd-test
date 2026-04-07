@@ -164,9 +164,15 @@ export function validateAndScore(
 // ---------------------------------------------------------------------------
 // UI-facing result calculation
 //
-// Wraps validateAndScore for the application layer.  When the wizard skips
-// Part B or Part D (no symptoms endorsed in Part A / Part C), severity
-// responses remain null.  In that case the subtotal falls back to 0.
+// Wraps validateAndScore for the application layer.
+//
+// Part A and Part C do not add points, but they determine whether the
+// corresponding severity part is applicable:
+// - no obsessions endorsed in Part A => Part B subtotal is 0
+// - no compulsions/avoidance endorsed in Part C => Part D subtotal is 0
+//
+// This mirrors the form flow where B rates endorsed A-symptoms and D rates
+// endorsed C-symptoms.
 // ---------------------------------------------------------------------------
 
 export function calculateResults(
@@ -174,11 +180,13 @@ export function calculateResults(
 ): TestResults {
   const obsessionCount = countYesResponses(state.partA);
   const compulsionCount = countYesResponses(state.partC);
+  const shouldScorePartB = hasAnyYesResponse(state.partA);
+  const shouldScorePartD = hasAnyYesResponse(state.partC);
 
   const scoring = validateAndScore(state.partB, state.partD);
 
-  const obsessionSubtotal = scoring.partBSubtotal ?? 0;
-  const compulsionSubtotal = scoring.partDSubtotal ?? 0;
+  const obsessionSubtotal = shouldScorePartB ? (scoring.partBSubtotal ?? 0) : 0;
+  const compulsionSubtotal = shouldScorePartD ? (scoring.partDSubtotal ?? 0) : 0;
   const totalScore = obsessionSubtotal + compulsionSubtotal;
 
   return {

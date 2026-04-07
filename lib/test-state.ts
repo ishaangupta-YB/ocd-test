@@ -68,7 +68,13 @@ export function isChecklistRecordComplete(
 export function isSeverityRecordComplete(
   record: Record<number, number | null>,
 ): boolean {
-  return Object.values(record).every((value) => value !== null);
+  return Object.values(record).every(
+    (value) =>
+      typeof value === "number" &&
+      Number.isInteger(value) &&
+      value >= 0 &&
+      value <= 5,
+  );
 }
 
 export function hasAnyChecklistYes(

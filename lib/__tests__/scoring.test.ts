@@ -245,9 +245,9 @@ describe("validateAndScore", () => {
   });
 });
 
-// ── calculateResults — Part A/C isolation ─────────────────────────────────
+// ── calculateResults — checklist-gated severity scoring ────────────────────
 
-describe("calculateResults — Part A/C never affect the total score", () => {
+describe("calculateResults — checklist-gated severity scoring", () => {
   const partB: Record<number, number | null> = {
     1: 3,
     2: 3,
@@ -263,27 +263,59 @@ describe("calculateResults — Part A/C never affect the total score", () => {
     5: 2,
   };
 
-  it("yields the same total regardless of Part A endorsements", () => {
-    const allYes = calculateResults({
-      partA: fillChecklist(PART_A_IDS, true),
-      partB,
-      partC: fillChecklist(PART_C_IDS, true),
-      partD,
-    });
-    const allNo = calculateResults({
+  it("ignores Part B and Part D when Part A and Part C have no endorsed symptoms", () => {
+    const results = calculateResults({
       partA: fillChecklist(PART_A_IDS, false),
       partB,
       partC: fillChecklist(PART_C_IDS, false),
       partD,
     });
 
-    expect(allYes.totalScore).toBe(allNo.totalScore);
-    expect(allYes.totalScore).toBe(25); // 15 + 10
-    expect(allYes.obsessionSubtotal).toBe(15);
-    expect(allYes.compulsionSubtotal).toBe(10);
+    expect(results.obsessionSubtotal).toBe(0);
+    expect(results.compulsionSubtotal).toBe(0);
+    expect(results.totalScore).toBe(0);
   });
 
-  it("reports correct counts from Part A/C without affecting score", () => {
+  it("uses Part B when Part A has endorsed symptoms", () => {
+    const results = calculateResults({
+      partA: fillChecklist(PART_A_IDS, true),
+      partB,
+      partC: fillChecklist(PART_C_IDS, false),
+      partD,
+    });
+
+    expect(results.obsessionSubtotal).toBe(15);
+    expect(results.compulsionSubtotal).toBe(0);
+    expect(results.totalScore).toBe(15);
+  });
+
+  it("uses Part D when Part C has endorsed symptoms", () => {
+    const results = calculateResults({
+      partA: fillChecklist(PART_A_IDS, false),
+      partB,
+      partC: fillChecklist(PART_C_IDS, true),
+      partD,
+    });
+
+    expect(results.obsessionSubtotal).toBe(0);
+    expect(results.compulsionSubtotal).toBe(10);
+    expect(results.totalScore).toBe(10);
+  });
+
+  it("uses both Part B and Part D when both checklists have endorsements", () => {
+    const results = calculateResults({
+      partA: fillChecklist(PART_A_IDS, true),
+      partB,
+      partC: fillChecklist(PART_C_IDS, true),
+      partD,
+    });
+
+    expect(results.obsessionSubtotal).toBe(15);
+    expect(results.compulsionSubtotal).toBe(10);
+    expect(results.totalScore).toBe(25);
+  });
+
+  it("reports correct counts from Part A/C while score stays checklist-gated", () => {
     const results = calculateResults({
       partA: fillChecklist(PART_A_IDS, true),
       partB: fill(PART_B_IDS, 0),
