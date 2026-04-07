@@ -6,8 +6,8 @@ import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
 import { Disclaimer } from "@/components/shared/Disclaimer";
-import { Button } from "@/components/ui/button";
-import { buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
+import { buttonVariants } from "@/components/ui/Button";
 import { Card } from "@/components/ui/card";
 import { useTestContext } from "@/context/TestContext";
 import {
