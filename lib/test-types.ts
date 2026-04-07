@@ -36,3 +36,24 @@ export interface TestResults {
   totalScore: number;
   severityLevel: SeverityLevel;
 }
+
+export interface ItemValidationStatus {
+  id: number;
+  name: string;
+  valid: boolean;
+  value: number | null;
+  error?: string;
+}
+
+export interface ScoringResult {
+  valid: boolean;
+  partBSubtotal: number | null;
+  partDSubtotal: number | null;
+  totalScore: number | null;
+  maxScore: 50;
+  errors: string[];
+  itemValidation: {
+    partB: ItemValidationStatus[];
+    partD: ItemValidationStatus[];
+  };
+}

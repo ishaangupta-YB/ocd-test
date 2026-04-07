@@ -128,11 +128,7 @@ export function ResultsClient() {
               </p>
               <h1 className="font-serif text-4xl text-foreground sm:text-5xl">
                 Y-BOCS-II Self-Report score summary
-              </h1>
-              <p className="max-w-3xl text-base leading-8 text-muted-foreground">
-                Parts A and C identify symptom themes. Parts B and D provide the
-                0–50 severity score shown here.
-              </p>
+              </h1> 
             </div>
             <div className="flex flex-wrap items-center gap-4">
               <div className="text-6xl font-semibold tracking-tight text-foreground sm:text-7xl">

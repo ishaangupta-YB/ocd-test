@@ -82,9 +82,6 @@ export default function HomePage() {
     >
       <section className="grid gap-8 lg:grid-cols-[minmax(0,1.15fr)_minmax(20rem,0.85fr)] lg:items-center">
         <motion.div variants={containerVariants} className="space-y-8">
-          <motion.div variants={itemVariants} className="inline-flex items-center rounded-full bg-[color-mix(in_oklab,var(--color-surface-strong)_80%,transparent)] px-4 py-2 text-sm font-medium text-muted-foreground shadow-[var(--shadow-soft)]">
-            Guided OCD self-report screening
-          </motion.div>
           <motion.div variants={itemVariants} className="space-y-5">
             <h1 className="max-w-4xl font-serif text-5xl leading-tight text-foreground sm:text-6xl lg:text-7xl">
               Y-BOCS-II Self-Report OCD Screener

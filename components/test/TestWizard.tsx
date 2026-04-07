@@ -26,8 +26,6 @@ import type {
   TestState,
 } from "@/lib/test-types";
 
-const CHECKLIST_GROUP_SIZE = 6;
-
 type WizardStep =
   | {
       kind: "intro";
@@ -46,7 +44,6 @@ type WizardStep =
       partLabel: string;
       progressCount: number;
       progressTotal: number;
-      rangeLabel: string;
     }
   | {
       kind: "transition";
@@ -72,38 +69,23 @@ type WizardStep =
       kind: "severity";
       key: string;
       heading: string;
+      helperText: string;
       part: "partB" | "partD";
       partLabel: string;
       progressCount: number;
       progressTotal: number;
-      question: SeverityQuestion;
-      questionNumber: number;
-      totalQuestions: number;
+      questions: SeverityQuestion[];
     };
 
-function groupItems<T>(items: T[], size: number) {
-  const groups: T[][] = [];
-
-  for (let index = 0; index < items.length; index += size) {
-    groups.push(items.slice(index, index + size));
-  }
-
-  return groups;
-}
-
 function buildWizardSteps(state: TestState): WizardStep[] {
-  const groupedPartA = groupItems(partAItems, CHECKLIST_GROUP_SIZE);
-  const groupedPartC = groupItems(partCItems, CHECKLIST_GROUP_SIZE);
   const shouldIncludePartB =
     !isChecklistRecordComplete(state.partA) || hasAnyChecklistYes(state.partA);
   const shouldIncludePartD =
     !isChecklistRecordComplete(state.partC) || hasAnyChecklistYes(state.partC);
 
+  // Each part is one page: Part A, Part B (if needed), Part C, Part D (if needed)
   const totalSubstantiveSteps =
-    groupedPartA.length +
-    groupedPartC.length +
-    (shouldIncludePartB ? partBQuestions.length : 0) +
-    (shouldIncludePartD ? partDQuestions.length : 0);
+    1 + 1 + (shouldIncludePartB ? 1 : 0) + (shouldIncludePartD ? 1 : 0);
 
   const steps: WizardStep[] = [
     {
@@ -117,24 +99,18 @@ function buildWizardSteps(state: TestState): WizardStep[] {
 
   let progressIndex = 0;
 
-  groupedPartA.forEach((items, index) => {
-    const start = items[0]?.id ?? 1;
-    const end = items[items.length - 1]?.id ?? start;
-    progressIndex += 1;
-
-    steps.push({
-      kind: "checklist",
-      key: `partA-${index}`,
-      heading: "Part A: Obsessions Checklist",
-      helperText:
-        "Please indicate whether you experienced each thought, image, sensation, or urge during the last 30 days.",
-      items,
-      part: "partA",
-      partLabel: `Part A: Obsessions — Questions ${start}–${end} of ${partAItems.length}`,
-      progressCount: progressIndex,
-      progressTotal: totalSubstantiveSteps,
-      rangeLabel: `Questions ${start}–${end} of ${partAItems.length}`,
-    });
+  progressIndex += 1;
+  steps.push({
+    kind: "checklist",
+    key: "partA",
+    heading: "Part A: Obsessions Checklist",
+    helperText:
+      "Please indicate whether you experienced each thought, image, sensation, or urge during the last 30 days.",
+    items: partAItems,
+    part: "partA",
+    partLabel: `Part A: Obsessions — ${partAItems.length} items`,
+    progressCount: progressIndex,
+    progressTotal: totalSubstantiveSteps,
   });
 
   if (isChecklistRecordComplete(state.partA) && !hasAnyChecklistYes(state.partA)) {
@@ -150,32 +126,17 @@ function buildWizardSteps(state: TestState): WizardStep[] {
       progressTotal: totalSubstantiveSteps,
     });
   } else {
+    progressIndex += 1;
     steps.push({
-      kind: "transition",
-      key: "partB-intro",
+      kind: "severity",
+      key: "partB",
       heading: "Part B: Obsession Severity",
-      body: [partBInstructions],
-      nextLabel: "Start Part B",
-      partLabel: "Part B: Obsession Severity",
+      helperText: partBInstructions,
+      part: "partB",
+      partLabel: `Part B: Obsession Severity — ${partBQuestions.length} questions`,
       progressCount: progressIndex,
       progressTotal: totalSubstantiveSteps,
-    });
-
-    partBQuestions.forEach((question, index) => {
-      progressIndex += 1;
-
-      steps.push({
-        kind: "severity",
-        key: `partB-${question.id}`,
-        heading: "Part B: Obsession Severity",
-        part: "partB",
-        partLabel: `Part B: Obsession Severity — Question ${index + 1} of ${partBQuestions.length}`,
-        progressCount: progressIndex,
-        progressTotal: totalSubstantiveSteps,
-        question,
-        questionNumber: index + 1,
-        totalQuestions: partBQuestions.length,
-      });
+      questions: partBQuestions,
     });
   }
 
@@ -190,24 +151,18 @@ function buildWizardSteps(state: TestState): WizardStep[] {
     progressTotal: totalSubstantiveSteps,
   });
 
-  groupedPartC.forEach((items, index) => {
-    const start = items[0]?.id ?? 30;
-    const end = items[items.length - 1]?.id ?? start;
-    progressIndex += 1;
-
-    steps.push({
-      kind: "checklist",
-      key: `partC-${index}`,
-      heading: "Part C: Compulsions & Avoidance Checklist",
-      helperText:
-        "Please indicate whether you used any of the following behaviors or strategies during the last 30 days.",
-      items,
-      part: "partC",
-      partLabel: `Part C: Compulsions & Avoidance — Questions ${start}–${end} of ${partCItems.length}`,
-      progressCount: progressIndex,
-      progressTotal: totalSubstantiveSteps,
-      rangeLabel: `Questions ${start}–${end} of ${partCItems.length}`,
-    });
+  progressIndex += 1;
+  steps.push({
+    kind: "checklist",
+    key: "partC",
+    heading: "Part C: Compulsions & Avoidance Checklist",
+    helperText:
+      "Please indicate whether you used any of the following behaviors or strategies during the last 30 days.",
+    items: partCItems,
+    part: "partC",
+    partLabel: `Part C: Compulsions & Avoidance — ${partCItems.length} items`,
+    progressCount: progressIndex,
+    progressTotal: totalSubstantiveSteps,
   });
 
   if (isChecklistRecordComplete(state.partC) && !hasAnyChecklistYes(state.partC)) {
@@ -223,32 +178,17 @@ function buildWizardSteps(state: TestState): WizardStep[] {
       progressTotal: totalSubstantiveSteps,
     });
   } else {
+    progressIndex += 1;
     steps.push({
-      kind: "transition",
-      key: "partD-intro",
+      kind: "severity",
+      key: "partD",
       heading: "Part D: Compulsion/Avoidance Severity",
-      body: [partDInstructions],
-      nextLabel: "Start Part D",
-      partLabel: "Part D: Compulsion/Avoidance Severity",
+      helperText: partDInstructions,
+      part: "partD",
+      partLabel: `Part D: Compulsion/Avoidance Severity — ${partDQuestions.length} questions`,
       progressCount: progressIndex,
       progressTotal: totalSubstantiveSteps,
-    });
-
-    partDQuestions.forEach((question, index) => {
-      progressIndex += 1;
-
-      steps.push({
-        kind: "severity",
-        key: `partD-${question.id}`,
-        heading: "Part D: Compulsion/Avoidance Severity",
-        part: "partD",
-        partLabel: `Part D: Compulsion/Avoidance Severity — Question ${index + 1} of ${partDQuestions.length}`,
-        progressCount: progressIndex,
-        progressTotal: totalSubstantiveSteps,
-        question,
-        questionNumber: index + 1,
-        totalQuestions: partDQuestions.length,
-      });
+      questions: partDQuestions,
     });
   }
 
@@ -346,8 +286,12 @@ export function TestWizard() {
     }
 
     if (currentStep.kind === "severity") {
-      if (state[currentStep.part][currentStep.question.id] === null) {
-        setStepError("Please choose one response before continuing.");
+      const unanswered = currentStep.questions.find(
+        (q) => state[currentStep.part][q.id] === null,
+      );
+
+      if (unanswered) {
+        setStepError("Please answer every question on this screen before continuing.");
         return;
       }
     }
@@ -358,7 +302,7 @@ export function TestWizard() {
   const nextLabel = (() => {
     if (currentStep.kind === "intro") return "Begin Part A";
     if (currentStep.kind === "transition" || currentStep.kind === "skip") return currentStep.nextLabel;
-    if (currentStep.kind === "severity" && state.currentStep >= steps.length - 1) return "See Results";
+    if (state.currentStep >= steps.length - 1) return "See Results";
     return "Next";
   })();
 
@@ -451,7 +395,7 @@ export function TestWizard() {
               <Card className="p-6 sm:p-8">
                 <div className="space-y-3">
                   <p className="text-sm font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                    {currentStep.rangeLabel}
+                    {currentStep.items.length} items
                   </p>
                   <h1 className="font-serif text-4xl text-foreground sm:text-5xl">
                     {currentStep.heading}
@@ -477,21 +421,29 @@ export function TestWizard() {
               <Card className="p-6 sm:p-8">
                 <div className="space-y-3">
                   <p className="text-sm font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                    Question {currentStep.questionNumber} of {currentStep.totalQuestions}
+                    {currentStep.questions.length} questions
                   </p>
                   <h1 className="font-serif text-4xl text-foreground sm:text-5xl">
                     {currentStep.heading}
                   </h1>
+                  <p className="text-base leading-8 text-muted-foreground">
+                    {currentStep.helperText}
+                  </p>
                 </div>
               </Card>
-              <SeverityQuestionCard
-                onSelect={(value) => {
-                  setStepError(null);
-                  setSeverityResponse(currentStep.part, currentStep.question.id, value);
-                }}
-                question={currentStep.question}
-                selectedValue={state[currentStep.part][currentStep.question.id]}
-              />
+              <div className="space-y-4">
+                {currentStep.questions.map((question) => (
+                  <SeverityQuestionCard
+                    key={question.id}
+                    onSelect={(value) => {
+                      setStepError(null);
+                      setSeverityResponse(currentStep.part, question.id, value);
+                    }}
+                    question={question}
+                    selectedValue={state[currentStep.part][question.id]}
+                  />
+                ))}
+              </div>
             </>
           ) : null}
         </motion.section>
